@@ -1,0 +1,20 @@
+{
+    "name": "raphy/epitech-user-bundle",
+    "description": "An implementation of user authentication from the Epitech's Intranet for Symfony2",
+    "type": "bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raphael De Freitas",
+            "email": "raphael.defreitas@epitech.eu"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "raphy/epitech-api": "~2.0"
+    },
+    "require-dev": {
+        "doctrine/orm": "^2.4.8",
+        "symfony/symfony": "~2.7"
+    }
+}
