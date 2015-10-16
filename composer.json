@@ -9,6 +9,11 @@
             "email": "raphael.defreitas@epitech.eu"
         }
     ],
+    "autoload": {
+        "psr-4": {
+	    "Raphy\\Epitech\\UserBundle\\": ""
+	}
+    },
     "minimum-stability": "stable",
     "require": {
         "raphy/epitech-api": "~2.0"
