@@ -27,15 +27,25 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class AuthenticationProvider extends DaoAuthenticationProvider
 {
+    /**
+     * Contains the ORM EntityManager instance
+     *
+     * @var EntityManager
+     */
     private $entityManager;
 
-    private $superAdminLogins;
+    /**
+     * Contains the login of super administrators
+     *
+     * @var array
+     */
+    private $superAdminsLogin;
 
-    public function __construct(EntityManager $entityManager, UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true, array $superAdminLogins = array())
+    public function __construct(EntityManager $entityManager, UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true, array $superAdminsLogin = array())
     {
         parent::__construct($userProvider, $userChecker, $providerKey, $encoderFactory, $hideUserNotFoundExceptions);
         $this->entityManager = $entityManager;
-        $this->superAdminLogins = $superAdminLogins;
+        $this->superAdminsLogin = $superAdminsLogin;
     }
 
     public function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
@@ -54,7 +64,7 @@ class AuthenticationProvider extends DaoAuthenticationProvider
         $roles = $user->getRoles();
         foreach (array_keys($roles, "ROLE_SUPER_ADMIN") as $key)
             unset($roles[$key]);
-        if (in_array($user->getLogin(), $this->superAdminLogins))
+        if (in_array($user->getLogin(), $this->superAdminsLogin))
             $roles[] = "ROLE_SUPER_ADMIN";
         $user->setRoles($roles);
         $this->entityManager->persist($user);

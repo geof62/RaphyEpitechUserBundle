@@ -24,10 +24,29 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserProvider implements UserProviderInterface
 {
+    /**
+     * Contains the bundle configuration
+     *
+     * @var array
+     */
+    private $config;
+
+    /**
+     * Contains the ORM EntityManager instance
+     *
+     * @var EntityManager
+     */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * Constructor
+     *
+     * @param array $config
+     * @param EntityManager $entityManager
+     */
+    public function __construct(array $config, EntityManager $entityManager)
     {
+        $this->config = $config;
         $this->entityManager = $entityManager;
     }
 
@@ -40,7 +59,10 @@ class UserProvider implements UserProviderInterface
             throw new UsernameNotFoundException();
         if ($user = $this->findUserBy(array("login" => $username)))
             return $user;
-        $user = new User();
+        /**
+         * @var $user User
+         */
+        $user = new $this->config["user_class"]();
         $user->setLogin($username);
         return $user;
     }
@@ -58,12 +80,18 @@ class UserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return $class === "Raphy\\Epitech\\UserBundle\\Entity\\User";
+        return in_array("Raphy\\Epitech\\UserBundle\\Entity\\User", class_parents($class)) || $class === "Raphy\\Epitech\\UserBundle\\Entity\\User";
     }
 
+    /**
+     * Fins one user by an array of criteria
+     *
+     * @param array $criteria
+     * @return null|object
+     */
     protected function findUserBy(array $criteria)
     {
-        $repository = $this->entityManager->getRepository("Raphy\\Epitech\\UserBundle\\Entity\\User");
+        $repository = $this->entityManager->getRepository($this->config["user_class"]);
         return $repository->findOneBy($criteria);
     }
 }

@@ -4,7 +4,7 @@ This bundle provides the user component for Synfony2 using the Epitech's Intrane
 
 ## Installation & Setting Up
 
-### 1) Add the package to your project
+### Add the package to your project
 
 ```bash
 $> composer require raphy/epitech-user-bundle ~1.0
@@ -21,7 +21,7 @@ or
 }
 ```
 
-### 2) Add the bundle to your project
+### Add the bundle to your project
 Then in your `AppKernel.php`, register the bundle:
 ```php
 // AppKernel.php
@@ -36,7 +36,47 @@ public function registerBundles()
 }
 ```
 
-### 3) Configure the security layer
+### Configure the bundle
+
+Creates your own user entity
+```php
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Raphy\Epitech\UserBundle\Entity\User as BaseUser;
+
+/**
+ * User
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class User extends BaseUser
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+}
+
+```
+
+Set up the bundle configuration
+```yaml
+# config.yml
+
+# ...
+
+# Raphy Epitech User Configuratuon
+raphy_epitech_user:
+    user_class:  AppBundle\Entity\User # Your own user entity
+
+# ...
+```
+
+### Configure the security layer
 
 ```yaml
 # security.yml
@@ -45,9 +85,6 @@ security:
     providers:
         epitech:
             id: raphy_epitech_user.user.provider
-
-    encoders:
-            Raphy\Epitech\UserBundle\Entity\User: plaintext
 
     firewalls:
         dev:
@@ -76,6 +113,6 @@ security:
                 always_remember_me:     true
 ```
 
-### 4) Create your authentication controller
+### Create your authentication controller
 
 Now you have to create your authentication controller for the logging in and all the routes in your `routing.yml`.
