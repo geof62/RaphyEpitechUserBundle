@@ -12,13 +12,13 @@
 namespace Raphy\Epitech\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  *
- * @ORM\Table()
- * @ORM\Entity
+ * @MappedSuperClass
  */
 class User implements UserInterface
 {
@@ -38,7 +38,7 @@ class User implements UserInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="last_conection_date", type="datetime")
+     * @ORM\Column(name="last_connection_date", type="datetime")
      */
     private $lastConnectionDate;
 
