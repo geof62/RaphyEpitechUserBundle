@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EpitechUserBundle package.
+ * This file is part of the RaphyEpitechUserBundle package.
  *
  * (c) Raphael De Freitas <raphael.defreitas@epitech.eu>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Raphy\Epitech\UserBundle\Security;
+namespace Raphy\Symfony\Epitech\UserBundle\Security;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
@@ -21,26 +21,37 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * Class AuthenticationProvider
+ * Class AuthenticationProvider.
  *
  * @author Raphael De Freitas <raphael@de-freitas.net>
  */
 class AuthenticationProvider extends DaoAuthenticationProvider
 {
     /**
-     * Contains the ORM EntityManager instance
+     * Contains the ORM EntityManager instance.
      *
      * @var EntityManager
      */
     private $entityManager;
 
     /**
-     * Contains the login of super administrators
+     * Contains the login of super administrators.
      *
      * @var array
      */
     private $superAdminsLogin;
 
+    /**
+     * Constructor.
+     *
+     * @param EntityManager           $entityManager
+     * @param UserProviderInterface   $userProvider
+     * @param UserCheckerInterface    $userChecker
+     * @param EncoderFactoryInterface $providerKey
+     * @param EncoderFactoryInterface $encoderFactory
+     * @param bool|true               $hideUserNotFoundExceptions
+     * @param array                   $superAdminsLogin
+     */
     public function __construct(EntityManager $entityManager, UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true, array $superAdminsLogin = array())
     {
         parent::__construct($userProvider, $userChecker, $providerKey, $encoderFactory, $hideUserNotFoundExceptions);
@@ -48,24 +59,29 @@ class AuthenticationProvider extends DaoAuthenticationProvider
         $this->superAdminsLogin = $superAdminsLogin;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
     {
-
         $connector = new \EpitechAPI\Connector();
         try {
             $connector->authenticate(\EpitechAPI\Connector::SIGN_IN_METHOD_CREDENTIALS, $user->getUsername(), $token->getCredentials());
         } catch (\Exception $ex) {
             throw new \Exception("The Epitech's Intranet is not responding");
         }
-        if (!$connector->isSignedIn())
+        if (!$connector->isSignedIn()) {
             throw new BadCredentialsException();
+        }
         $user->updateFromIntranet($connector->getUser());
         $user->setLastConnectionDate(new \DateTime());
         $roles = $user->getRoles();
-        foreach (array_keys($roles, "ROLE_SUPER_ADMIN") as $key)
+        foreach (array_keys($roles, 'ROLE_SUPER_ADMIN') as $key) {
             unset($roles[$key]);
-        if (in_array($user->getLogin(), $this->superAdminsLogin))
-            $roles[] = "ROLE_SUPER_ADMIN";
+        }
+        if (in_array($user->getLogin(), $this->superAdminsLogin)) {
+            $roles[] = 'ROLE_SUPER_ADMIN';
+        }
         $user->setRoles($roles);
         $this->entityManager->persist($user);
         $this->entityManager->flush();

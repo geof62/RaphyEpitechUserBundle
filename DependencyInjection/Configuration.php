@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EpitechUserBundle package.
+ * This file is part of the RaphyEpitechUserBundle package.
  *
  * (c) Raphael De Freitas <raphael.defreitas@epitech.eu>
  *
@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Raphy\Epitech\UserBundle\DependencyInjection;
+namespace Raphy\Symfony\Epitech\UserBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * Class Configuration.
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
+ * @author Raphael De Freitas <raphael@de-freitas.net>
  */
 class Configuration implements ConfigurationInterface
 {

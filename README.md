@@ -1,13 +1,13 @@
 # RaphyEpitechUserBundle
 
-This bundle provides the user component for Synfony2 using the Epitech's Intranet authentication.
+Provides an user implementation of Epitech's Intranet
 
 ## Installation & Setting Up
 
 ### Add the package to your project
 
 ```bash
-$> composer require raphy/epitech-user-bundle ~1.0
+$> composer require raphy/epitech-user-bundle "@stable"
 ```
 
 or
@@ -16,7 +16,7 @@ or
 // composer.json
 "require": {
     // ...
-    "raphy/epitech-user-bundle": "~1.0"
+    "raphy/epitech-user-bundle": "@stable"
     // ...
 }
 ```
@@ -30,7 +30,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Raphy\Epitech\UserBundle(),
+        new Raphy\Symfony\Epitech\UserBundle(),
         // ...
     );
 }
@@ -45,7 +45,7 @@ Creates your own user entity
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Raphy\Epitech\UserBundle\Entity\User as BaseUser;
+use Raphy\Symfony\Epitech\UserBundle\Entity\User as BaseUser;
 
 /**
  * User

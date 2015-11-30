@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EpitechUserBundle package.
+ * This file is part of the RaphyEpitechUserBundle package.
  *
  * (c) Raphael De Freitas <raphael@de-freitas.net>
  *
@@ -9,21 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Raphy\Epitech\UserBundle\Entity;
+namespace Raphy\Symfony\Epitech\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\MappedSuperclass;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
+ * User.
  *
  * @MappedSuperClass
  */
 class User implements UserInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="login", type="string", length=10)
      * @ORM\Id
@@ -43,7 +42,7 @@ class User implements UserInterface
     private $lastConnectionDate;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -51,37 +50,37 @@ class User implements UserInterface
     }
 
     /**
-     * Updates this user from the Intranet user
+     * Updates this user from the Intranet user.
      *
      * @param \EpitechAPI\Component\User $intranetUser
      */
     public function updateFromIntranet(\EpitechAPI\Component\User $intranetUser)
     {
         $this->login = $intranetUser->getLogin();
-        $this->roles = array("ROLE_USER");
+        $this->roles = array('ROLE_USER');
         foreach ($intranetUser->getGroupsName() as $groupName) {
-            $this->roles[] = "ROLE_" . strtoupper($groupName);
+            $this->roles[] = 'ROLE_'.strtoupper($groupName);
         }
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getPassword()
     {
-        return null;
+        return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSalt()
     {
-        return null;
+        return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getUsername()
     {
@@ -89,16 +88,15 @@ class User implements UserInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function eraseCredentials()
     {
-        return null;
+        return;
     }
 
-
     /**
-     * Get login
+     * Get login.
      *
      * @return string
      */
@@ -108,9 +106,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set login
+     * Set login.
      *
      * @param string $login
+     *
      * @return $this
      */
     public function setLogin($login)
@@ -121,7 +120,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set lastConnectionDate
+     * Set lastConnectionDate.
      *
      * @param \DateTime $lastConnectionDate
      *
@@ -135,7 +134,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get lastConnectionDate
+     * Get lastConnectionDate.
      *
      * @return \DateTime
      */
@@ -145,7 +144,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set roles
+     * Set roles.
      *
      * @param array $roles
      *
@@ -159,7 +158,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get roles
+     * Get roles.
      *
      * @return array
      */

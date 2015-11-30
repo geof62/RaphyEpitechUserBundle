@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EpitechUserBundle package.
+ * This file is part of the RaphyEpitechUserBundle package.
  *
  * (c) Raphael De Freitas <raphael.defreitas@epitech.eu>
  *
@@ -9,39 +9,39 @@
  * file that was distributed with this source code.
  */
 
-namespace Raphy\Epitech\UserBundle\Security;
+namespace Raphy\Symfony\Epitech\UserBundle\Security;
 
 use Doctrine\ORM\EntityManager;
-use Raphy\Epitech\UserBundle\Entity\User;
+use Raphy\Symfony\Epitech\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * Class UserProvider
+ * Class UserProvider.
  *
  * @author Raphael De Freitas <raphael@de-freitas.net>
  */
 class UserProvider implements UserProviderInterface
 {
     /**
-     * Contains the bundle configuration
+     * Contains the bundle configuration.
      *
      * @var array
      */
     private $config;
 
     /**
-     * Contains the ORM EntityManager instance
+     * Contains the ORM EntityManager instance.
      *
      * @var EntityManager
      */
     private $entityManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param array $config
+     * @param array         $config
      * @param EntityManager $entityManager
      */
     public function __construct(array $config, EntityManager $entityManager)
@@ -51,24 +51,27 @@ class UserProvider implements UserProviderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function loadUserByUsername($username)
     {
-        if (empty($username))
+        if (empty($username)) {
             throw new UsernameNotFoundException();
-        if ($user = $this->findUserBy(array("login" => $username)))
+        }
+        if ($user = $this->findUserBy(array('login' => $username))) {
             return $user;
-        /**
-         * @var $user User
+        }
+        /*
+         * @var User
          */
-        $user = new $this->config["user_class"]();
+        $user = new $this->config['user_class']();
         $user->setLogin($username);
+
         return $user;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function refreshUser(UserInterface $user)
     {
@@ -76,22 +79,24 @@ class UserProvider implements UserProviderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supportsClass($class)
     {
-        return in_array("Raphy\\Epitech\\UserBundle\\Entity\\User", class_parents($class)) || $class === "Raphy\\Epitech\\UserBundle\\Entity\\User";
+        return in_array('Raphy\Symfony\Epitech\UserBundle\Entity\User', class_parents($class)) || $class === 'Raphy\Symfony\Epitech\UserBundle\Entity\User';
     }
 
     /**
-     * Fins one user by an array of criteria
+     * Fins one user by an array of criteria.
      *
      * @param array $criteria
+     *
      * @return null|object
      */
     protected function findUserBy(array $criteria)
     {
-        $repository = $this->entityManager->getRepository($this->config["user_class"]);
+        $repository = $this->entityManager->getRepository($this->config['user_class']);
+
         return $repository->findOneBy($criteria);
     }
 }

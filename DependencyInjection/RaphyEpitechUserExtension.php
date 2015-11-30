@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EpitechUserBundle package.
+ * This file is part of the RaphyEpitechUserBundle package.
  *
  * (c) Raphael De Freitas <raphael.defreitas@epitech.eu>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Raphy\Epitech\UserBundle\DependencyInjection;
+namespace Raphy\Symfony\Epitech\UserBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -17,9 +17,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * Class RaphyEpitechUserExtension.
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ * @author Raphael De Freitas <raphael@de-freitas.net>
  */
 class RaphyEpitechUserExtension extends Extension
 {
@@ -34,6 +34,6 @@ class RaphyEpitechUserExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter("raphy_epitech_user.config", $config);
+        $container->setParameter('raphy_epitech_user.config', $config);
     }
 }

@@ -1,25 +1,29 @@
 {
     "name": "raphy/epitech-user-bundle",
-    "description": "An implementation of user authentication from the Epitech's Intranet for Symfony2",
-    "type": "bundle",
+    "description": "Provides an user implementation of Epitech's Intranet",
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
             "name": "Raphael De Freitas",
-            "email": "raphael.defreitas@epitech.eu"
+            "email": "raphael@de-freitas.net"
         }
     ],
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-	    "Raphy\\Epitech\\UserBundle\\": ""
-	}
+            "Raphy\\Symfony\\Epitech\\": "."
+        }
     },
-    "minimum-stability": "stable",
     "require": {
-        "raphy/epitech-api": "~2.0"
+        "raphy/epitech-api": "^2.0",
+        "doctrine/orm": "^2.5",
+        "symfony/framework-bundle": "^2.7",
+        "symfony/security-bundle": "^2.7"
     },
     "require-dev": {
-        "doctrine/orm": "^2.4.8",
-        "symfony/symfony": "~2.7"
+        "phpunit/phpunit": "^4.8",
+        "fabpot/php-cs-fixer": "^1.9",
+        "squizlabs/php_codesniffer": "^2.4"
     }
 }
