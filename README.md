@@ -30,7 +30,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Raphy\Symfony\Epitech\UserBundle(),
+        new Raphy\Epitech\UserBundle(),
         // ...
     );
 }
@@ -45,7 +45,7 @@ Creates your own user entity
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Raphy\Symfony\Epitech\UserBundle\Entity\User as BaseUser;
+use Raphy\Epitech\UserBundle\Entity\User as BaseUser;
 
 /**
  * User
@@ -100,14 +100,14 @@ security:
                 path:                   app_authentication_logout # Your route name for logging out
                 target:                 app_index # Your route name to redirect after logged out
             intranet_login:
-                csrf_provider:          form.csrf_provider
+                csrf_token_generator:   security.csrf.token_manager
                 login_path:             app_authentication_login # Your route name for logging in
                 check_path:             app_authentication_login_check # Your route name for logging in check
                 default_target_path:    app_index # Your route name to redirect after logged in
                 post_only:              true
             # Add auto remember me
             remember_me:
-                key:                    "%secret%"
+                secret:                 "%secret%"
                 lifetime:               604800
                 path:                   app_index
                 always_remember_me:     true
@@ -116,3 +116,8 @@ security:
 ### Create your authentication controller
 
 Now you have to create your authentication controller for the logging in and all the routes in your `routing.yml`.
+
+## add the parameter super_admin_logins in your app/config/config.yml :
+parameters:
+    locale: fr
+    super_admin_logins: [geof]
